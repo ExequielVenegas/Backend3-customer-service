@@ -1,0 +1,24 @@
+CREATE TABLE customers (
+ customer_id VARCHAR(36) NOT NULL PRIMARY KEY,
+ creation_hash VARCHAR(64) NOT NULL,
+ created_by VARCHAR(100) NOT NULL,
+ nombre VARCHAR(150) NOT NULL,
+ documento VARCHAR(40) UNIQUE,
+ email VARCHAR(254),
+ telefono VARCHAR(30),
+ direccion VARCHAR(250),
+ origen VARCHAR(20) NOT NULL,
+ legacy_ref VARCHAR(150) UNIQUE,
+ version BIGINT NOT NULL DEFAULT 0,
+ created_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+ updated_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6)
+);
+CREATE TABLE customer_audit (
+ audit_id VARCHAR(36) NOT NULL PRIMARY KEY,
+ customer_id VARCHAR(36) NOT NULL,
+ actor VARCHAR(100) NOT NULL,
+ accion VARCHAR(20) NOT NULL,
+ version BIGINT NOT NULL,
+ occurred_at TIMESTAMP(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+ FOREIGN KEY (customer_id) REFERENCES customers(customer_id)
+);
